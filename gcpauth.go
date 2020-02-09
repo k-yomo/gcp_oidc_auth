@@ -1,4 +1,4 @@
-package gcp_oidc_auth
+package gcpauth
 
 import (
 	"context"
