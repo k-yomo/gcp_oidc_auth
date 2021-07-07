@@ -1,4 +1,4 @@
-module github.com/k-yomo/gcp_oidc_auth
+module github.com/k-yomo/gcpauth
 
 go 1.13
 
