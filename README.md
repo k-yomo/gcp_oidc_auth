@@ -11,7 +11,7 @@ Auth library to verify OpenID Connect ID Token from GCP services.
 ```go
 issuerEmail := "cloud-scheduler@foo.iam.gserviceaccount.com"
 aud := "Ais5cie5"
-if err := gcpauth.VerifyIDToken(ctx, issuerEmail, &gcpauth.Config{aud: aud}); err != nil {
+if err := gcpauth.VerifyIDToken(ctx, issuerEmail, &gcpauth.Config{Aud: aud}); err != nil {
   // return 401
 }
 // continue
