@@ -16,7 +16,6 @@ const (
 var verifier *oidc.IDTokenVerifier
 
 var (
-	IDTokenNotVerified = errors.New("issuer email is not verified")
 	IssuerEmailNotVerified = errors.New("issuer email is not verified")
 	UnexpectedIssuerEmail = errors.New("unexpected issuer email")
 )
@@ -33,7 +32,7 @@ type Config struct {
 func VerifyIDToken(ctx context.Context, serviceAccountEmail, oidcToken string, config *Config) error {
 	idToken, err := verifyGoogleIDToken(ctx, oidcToken, config)
 	if err != nil {
-		return IDTokenNotVerified
+		return err
 	}
 	var idTokenClaims struct {
 		Email         string `json:"email"`
