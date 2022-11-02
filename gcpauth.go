@@ -2,8 +2,10 @@ package gcpauth
 
 import (
 	"context"
+	"errors"
+	"fmt"
+
 	"github.com/coreos/go-oidc/v3/oidc"
-	"github.com/pkg/errors"
 )
 
 const (
@@ -17,7 +19,7 @@ var verifier *oidc.IDTokenVerifier
 
 var (
 	IssuerEmailNotVerified = errors.New("issuer email is not verified")
-	UnexpectedIssuerEmail = errors.New("unexpected issuer email")
+	UnexpectedIssuerEmail  = errors.New("unexpected issuer email")
 )
 
 // Config is the configuration for VerifyIDToken.
@@ -39,7 +41,7 @@ func VerifyIDToken(ctx context.Context, serviceAccountEmail, oidcToken string, c
 		EmailVerified bool   `json:"email_verified"`
 	}
 	if err := idToken.Claims(&idTokenClaims); err != nil {
-		return errors.Wrap(err, "decode idToken claims")
+		return fmt.Errorf("decode idToken claims: %w", err)
 	}
 	if !idTokenClaims.EmailVerified {
 		return IssuerEmailNotVerified
@@ -58,7 +60,7 @@ func verifyGoogleIDToken(ctx context.Context, token string, config *Config) (*oi
 	}
 	idToken, err := verifier.Verify(ctx, token)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("verify oidc id token: %w", err)
 	}
 	return idToken, nil
 }
